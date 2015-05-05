@@ -5,11 +5,20 @@ class B_Spline:
     """
     SAMPLE_RATE = 50.0  # used to determine how fine plots will be
 
-    def __init__(self, knot_list, coefficients, interp_points):
-        self.parameters = {"knotlist": knot_list, "coefficients": coefficients, "interp_points": interp_points}
+    def __init__(self, knotlist, coefficients, interp_points):
+	"""
+	:param knot_list: knotlist/vector to construct b-splines form
+	:param coefficients: coefficients to multiply on the b-splines
+	:param interp_points: points to create a interpolating spline from
+	"""
+        self.parameters = {"knotlist": knotlist, "coefficients": coefficients, "interp_points": interp_points}
 
     def set_parameter(self, key, data):
-
+        """
+        use to set the parameters of this Spline obj.
+        :param key: knotlist, interp_points, coefficients
+        :param data: 
+        """
         if (key == "knotlist"):
             for i in range(1, len(data)):
                 if data[i-1] > data[i]:
@@ -24,10 +33,10 @@ class B_Spline:
     def gamma(self, n, k, x):
         """
         The Gamma from the recursive B_spline definition
-        :param n:
-        :param k:
-        :param x:
-        :return:
+        :param n: degree of the b-spline
+        :param k: the b-spline's k'
+        :param x: evaluation at x
+        :return: gamma value corresponding to kth b-spline of degree n
         """
 
         # Preconditions:
@@ -40,7 +49,13 @@ class B_Spline:
 
 
     def b_spline(self, n, k, x):
-
+	"""
+	Calculates the value of the kth b-spline of degree n at x
+	:param n: degree of b
+	:param k: k of b
+	:param x: evaluation at x
+	:return: value of kth b-spline of degree n at x 
+	"""
         # Preconditions:
         self.check_preconditions(False, True, False)
 
@@ -56,7 +71,12 @@ class B_Spline:
                                                           x))
 
     def alpha(self, n, k, x):
-
+	"""
+	Calculates the alpha of the derivative of the kth b-spline of degree n at x
+	:param n: degree of b-spline
+	:param k: k of b
+	:param x: evaluate at x
+	"""
         # Preconditions:
         self.check_preconditions(False, True, False)
 
@@ -65,7 +85,13 @@ class B_Spline:
         return n / float(self.parameters["knotlist"][k + n] - self.parameters["knotlist"][k])
 
     def b_spline_derivative(self, n, k, i_th, x):
-
+	"""
+	Calculates (b^n_k)^(ith), aka the ith-derivative of b^n_k
+	:param n: degree of the b-spline to derivate
+	:param k: the k of b
+	:param ith: how often 
+	:return ith deriv value of kth b-spline of degree n
+	"""
         # Preconditions:
         self.check_preconditions(False, True, False)
 
@@ -81,7 +107,10 @@ class B_Spline:
 
 
     def determine_multiplicity_interp_points(self):
-
+	"""
+	Returns the muliplicity of the interpolation points, e.g for 1,2,2,2,3,4,4: 0,0,1,2,0,0,1
+	:return: the mulitplicity of self.parameters["interp_points"]
+	"""
         # Preconditions:
         self.check_preconditions(True, False, False)
 
@@ -99,13 +128,10 @@ class B_Spline:
 
     def check_preconditions(self, interp_available, knotlist_available, coeefficients_available):
         """
-
         Check for flagged preconditions
-
         :param interp_available: Check if interpolation points are available
         :param knotlist_available: Check if knotlist available
         :param coeefficients_available: Check if coefficients available
-        :return:
         """
 
         if interp_available and (self.parameters["interp_points"] is None or len(self.parameters["interp_points"]) == 0):
