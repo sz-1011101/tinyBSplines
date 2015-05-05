@@ -17,7 +17,7 @@ class Interpreter:
         self.commands = {"set": self.command_set, "save": self.command_save, "interpolate": self.command_interpolate,
                          "tex": self.command_tex, "plot": self.command_plot, "clear": self.command_clear,
                          "exec": self.command_exec, "quit": self.command_quit, "evaluate": self.command_evaluate,
-                         "evaluate_naive": self.command_evaluate_naive}
+                         "evaluate_naive": self.command_evaluate_naive, "help": self.command_help}
 
         self.data_interpretation = {"knotlist": self.string_list_to_float_list,
                                     "coefficients": self.string_list_to_float_list,
@@ -185,6 +185,12 @@ class Interpreter:
             print("An IOError occurred: " + exception.message)
         return True
 
+    def command_help(self,  key, raw_data):
+        print("Available commands:")
+        for key in self.commands:
+            print("  "+key)
+        return True
+    
     def interpret(self):
         # interpret from queue first
         if len(self.queue) > 0:
