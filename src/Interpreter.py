@@ -53,8 +53,9 @@ class Interpreter:
                 for value_table in corr_splines_derivatives:
                     self.plot_gen.pass_value_table(value_table)
                 print("Derivatives saved")
-
+                
             elif key == "linearcomb":  # Saves the linear combination spline curve of deg given by raw_data
+                
                 if raw_data is not None:
                     degree = int(raw_data)
                 else:
@@ -65,7 +66,9 @@ class Interpreter:
                 lin_comb = bsvg.linear_combination_value_table(self.spline_obj, start, end, degree)
                 self.plot_gen.pass_value_table(lin_comb)
                 print("Linear combination saved")
+                
             elif key == "linearcomb_complete":  # Saves the linear combination spline curve of deg given by raw_data on whole knotlist
+                
                 if raw_data is not None:
                     degree = int(raw_data)
                 else:
@@ -76,13 +79,18 @@ class Interpreter:
                 print("Linear combination saved")
 
             elif key == "knotlist":  # Saves the knots Xi, useful for showing the knot intervals
-
+                
                 knots = bsvg.knotlist_value_table(self.spline_obj)
                 self.plot_gen.pass_value_table(knots)
+                print("Knotlist saved")
+                
             elif key == "interp_points":
+                
                 interp_points = bsvg.interp_points_value_table(self.spline_obj)
                 self.plot_gen.pass_value_table(interp_points)
-            elif key == "gamma":
+            
+            elif key == "gamma": # Saves the gamma functions for all b-splines
+                
                 if raw_data is not None:
                     degree = int(raw_data)
                 else:
@@ -93,6 +101,7 @@ class Interpreter:
                 for value_table in corr_gammas:
                     self.plot_gen.pass_value_table(value_table)
                 print("Gammas saved")
+                
             else:
                 print("unexpected keyword \"" + key + "\".")
         except ValueError as exception:
